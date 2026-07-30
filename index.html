@@ -1238,8 +1238,20 @@ shareBtn.addEventListener('click', async ()=>{
   shareLabel.textContent = 'Preparing…';
   try{
     const canvas = await captureScoreMap();
+    const fileName = 'score-map-'+new Date().toISOString().slice(0,10)+'.png';
+
+    // Running inside the WiseKiosk app - its native bridge hands this straight to a
+    // real Android share sheet, which is far more reliable than the browser's Web
+    // Share API and download handling inside an embedded WebView.
+    if(window.WiseKioskBridge && typeof window.WiseKioskBridge.shareImage === 'function'){
+      const dataUrl = canvas.toDataURL('image/png');
+      window.WiseKioskBridge.shareImage(dataUrl, fileName);
+      shareBtn.disabled = false;
+      shareLabel.textContent = 'Share';
+      return;
+    }
+
     canvas.toBlob(async (blob)=>{
-      const fileName = 'score-map-'+new Date().toISOString().slice(0,10)+'.png';
       const file = new File([blob], fileName, {type:'image/png'});
       let shared = false;
       if(navigator.canShare && navigator.canShare({files:[file]})){
