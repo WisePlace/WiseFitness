@@ -510,10 +510,11 @@
     margin-bottom:14px;
   }
   .local-detected-text{
-    margin:0 0 10px;
+    margin:0 0 12px;
     font-size:13px;
     color:var(--text);
     line-height:1.5;
+    text-align:center;
   }
   .local-continue-btn{
     width:100%;
@@ -531,21 +532,22 @@
   .local-profile-list{
     display:flex;
     flex-wrap:wrap;
+    justify-content:center;
     gap:8px;
-    margin-bottom:12px;
   }
   .local-pill{
     font-family:'Inter',sans-serif;
     font-size:13px;
-    color:var(--text);
-    background:var(--panel-2);
-    border:1px solid var(--line);
+    font-weight:600;
+    color:#1B1300;
+    background:var(--recovering);
+    border:none;
     border-radius:999px;
-    padding:8px 16px;
+    padding:9px 18px;
     cursor:pointer;
-    transition:border-color .15s ease;
+    transition:background .15s ease;
   }
-  .local-pill:hover{ border-color:var(--recovering-dark); color:var(--recovering); }
+  .local-pill:hover{ background:#EAB554; }
   .local-add-row{
     display:flex;
     gap:8px;
@@ -581,6 +583,12 @@
     color:var(--text-faint);
     line-height:1.5;
   }
+  .local-name-error{
+    margin:8px 0 0;
+    font-size:12px;
+    color:var(--danger);
+    line-height:1.5;
+  }
   @media (prefers-reduced-motion:reduce){
     .muscle.just-toggled{ animation:none; }
   }
@@ -597,9 +605,9 @@
     <div class="sync-status" id="sync-status">Not synced yet</div>
     <button class="menu-item" id="sync-now-btn">Sync now</button>
     <button class="menu-item" id="switch-account-btn">Switch account</button>
+    <button class="menu-item" id="signout-btn">Sign out</button>
     <button class="menu-item menu-item-danger" id="delete-account-btn">Delete account</button>
     <button class="menu-item menu-item-danger" id="delete-profile-btn">Delete profile</button>
-    <button class="menu-item" id="signout-btn">Sign out</button>
   </div>
 </div>
 
@@ -619,16 +627,16 @@
       <div class="local-detected" id="local-detected" hidden>
         <p class="local-detected-text" id="local-detected-text"></p>
         <button class="local-continue-btn" id="local-continue-btn"></button>
+        <div class="local-profile-list" id="local-profile-list"></div>
       </div>
-
-      <div class="local-profile-list" id="local-profile-list"></div>
 
       <div class="local-add-row" id="local-add-row">
-        <input type="text" id="local-name-input" placeholder="Your name" maxlength="24">
+        <input type="text" id="local-name-input" placeholder="Your name" maxlength="16">
         <button class="local-add-btn" id="local-add-btn">Use this device</button>
       </div>
+      <p class="local-name-error" id="local-name-error" style="display:none;"></p>
       <p class="local-hint" id="local-limit-msg" style="display:none;">This device has reached its limit of 5 local profiles.</p>
-      <p class="local-hint">Local profiles stay on this device only — no account needed, good for friends training with you.</p>
+      <p class="local-hint">Local profiles stay on this device only — no account needed. Names: 4–16 characters, letters, numbers, or "-" only.</p>
     </div>
   </div>
 </div>
@@ -1299,6 +1307,7 @@ const localNameInput = document.getElementById('local-name-input');
 const localAddBtn = document.getElementById('local-add-btn');
 const localAddRow = document.getElementById('local-add-row');
 const localLimitMsg = document.getElementById('local-limit-msg');
+const localNameError = document.getElementById('local-name-error');
 const deleteAccountBtn = document.getElementById('delete-account-btn');
 const deleteProfileBtn = document.getElementById('delete-profile-btn');
 const dangerOverlay = document.getElementById('danger-overlay');
@@ -1333,13 +1342,13 @@ function renderLocalProfileList(){
   } else if(names.length === 1){
     const only = names[0];
     localDetected.hidden = false;
-    localDetectedText.textContent = 'Local data found on this device for "' + only + '".';
+    localDetectedText.textContent = 'Local profile(s) found on this device';
     localContinueBtn.style.display = '';
     localContinueBtn.textContent = 'Continue as ' + only;
     localContinueBtn.onclick = ()=> selectLocalProfile(only);
   } else {
     localDetected.hidden = false;
-    localDetectedText.textContent = 'Local profiles found on this device:';
+    localDetectedText.textContent = 'Local profile(s) found on this device';
     localContinueBtn.style.display = 'none';
     names.forEach(name=>{
       const pill = document.createElement('button');
@@ -1356,9 +1365,25 @@ function renderLocalProfileList(){
   localLimitMsg.style.display = atLimit ? '' : 'none';
 }
 
+function validateProfileName(name){
+  if(name.length < 4) return 'Name must be at least 4 characters.';
+  if(name.length > 16) return 'Name must be 16 characters or fewer.';
+  if(!/^[A-Za-z0-9-]+$/.test(name)) return 'Only letters, numbers, and "-" are allowed — no spaces.';
+  return null;
+}
+
 localAddBtn.addEventListener('click', ()=>{
   const name = localNameInput.value.trim();
   if(!name) return;
+
+  const nameErr = validateProfileName(name);
+  if(nameErr){
+    localNameError.textContent = nameErr;
+    localNameError.style.display = '';
+    return;
+  }
+  localNameError.style.display = 'none';
+
   const store = loadLocalProfilesStore();
   const isNew = !store.profiles.hasOwnProperty(name);
   if(isNew && Object.keys(store.profiles).length >= LOCAL_PROFILE_LIMIT){
