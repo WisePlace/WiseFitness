@@ -910,8 +910,11 @@
     <button class="menu-item" id="switch-account-btn">Switch account</button>
     <button class="menu-item" id="signout-btn">Sign out</button>
     <button class="menu-item menu-item-danger" id="delete-account-btn">Delete account</button>
+    <button class="menu-item" id="export-profile-btn">Export profile</button>
+    <button class="menu-item" id="import-profile-btn">Import profile</button>
     <button class="menu-item menu-item-danger" id="delete-profile-btn">Delete profile</button>
   </div>
+  <input type="file" id="import-file-input" accept="application/json,.json" style="display:none;">
 </div>
 
 <div class="auth-gate" id="auth-gate">
@@ -1709,6 +1712,9 @@ const localLimitMsg = document.getElementById('local-limit-msg');
 const localNameError = document.getElementById('local-name-error');
 const deleteAccountBtn = document.getElementById('delete-account-btn');
 const deleteProfileBtn = document.getElementById('delete-profile-btn');
+const exportProfileBtn = document.getElementById('export-profile-btn');
+const importProfileBtn = document.getElementById('import-profile-btn');
+const importFileInput = document.getElementById('import-file-input');
 const dangerOverlay = document.getElementById('danger-overlay');
 const dangerTitle = document.getElementById('danger-title');
 const dangerText = document.getElementById('danger-text');
@@ -1868,12 +1874,16 @@ function updateAccountMenuForMode(){
     switchAccountBtn.style.display = 'none';
     deleteAccountBtn.style.display = '';
     deleteProfileBtn.style.display = 'none';
+    exportProfileBtn.style.display = 'none';
+    importProfileBtn.style.display = 'none';
   } else {
     syncNowBtn.style.display = 'none';
     signoutBtn.style.display = 'none';
     switchAccountBtn.style.display = '';
     deleteAccountBtn.style.display = 'none';
     deleteProfileBtn.style.display = '';
+    exportProfileBtn.style.display = '';
+    importProfileBtn.style.display = '';
   }
 }
 
@@ -1920,6 +1930,61 @@ dangerConfirmBtn.addEventListener('click', ()=>{
   dangerOverlay.hidden = true;
   pendingDangerAction = null;
   if(action) action();
+});
+
+exportProfileBtn.addEventListener('click', ()=>{
+  if(authMode !== 'local' || !activeLocalProfile) return;
+  accountMenu.hidden = true;
+  const payload = {
+    version: 3,
+    exportedAt: Date.now(),
+    profileName: activeLocalProfile,
+    muscles: muscleState,
+    stopwatchHistory: stopwatchHistory,
+    note: profileNote
+  };
+  const blob = new Blob([JSON.stringify(payload, null, 2)], { type: 'application/json' });
+  const url = URL.createObjectURL(blob);
+  const fileName = 'wisefitness-' + activeLocalProfile.toLowerCase().replace(/[^a-z0-9]+/g, '-') + '.json';
+  const a = document.createElement('a');
+  a.href = url;
+  a.download = fileName;
+  document.body.appendChild(a);
+  a.click();
+  a.remove();
+  URL.revokeObjectURL(url);
+});
+
+importProfileBtn.addEventListener('click', ()=>{
+  if(authMode !== 'local' || !activeLocalProfile) return;
+  accountMenu.hidden = true;
+  importFileInput.value = '';
+  importFileInput.click();
+});
+
+importFileInput.addEventListener('change', ()=>{
+  const file = importFileInput.files[0];
+  if(!file) return;
+  const targetProfile = activeLocalProfile;
+  const reader = new FileReader();
+  reader.onload = ()=>{
+    let data = null;
+    try{ data = JSON.parse(reader.result); } catch(e){ data = null; }
+    if(!data || typeof data.muscles !== 'object'){
+      alert('Could not read that file — make sure it\'s a WiseFitness export.');
+      return;
+    }
+    showDangerConfirm(
+      'Import into "' + targetProfile + '"?',
+      'This replaces this profile\'s current workout history, scores, note, and saved times with the data from this file. This can\'t be undone.',
+      'Import',
+      ()=>{
+        applyLoadedState(data);
+        scheduleSave();
+      }
+    );
+  };
+  reader.readAsText(file);
 });
 
 deleteProfileBtn.addEventListener('click', ()=>{
