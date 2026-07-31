@@ -262,7 +262,39 @@
   .history-item:last-child{ border-bottom:none; }
   .history-dot{ width:6px;height:6px;border-radius:50%; background:var(--text-faint); flex-shrink:0; }
   .history-time{ font-family:'JetBrains Mono',monospace; color:var(--text-dim); }
-  .bottom-actions{ display:flex; flex-direction:column; align-items:center; gap:12px; margin:28px 0 6px; }
+  .history-delete-btn{
+    margin-left:auto;
+    flex-shrink:0;
+    background:transparent;
+    border:none;
+    color:var(--text-faint);
+    padding:4px;
+    display:flex;
+    cursor:pointer;
+  }
+  .history-delete-btn:hover{ color:var(--danger); }
+  .icon-actions-row{
+    display:flex;
+    justify-content:center;
+    gap:12px;
+    margin:28px 0 0;
+  }
+  .icon-action-btn{
+    width:48px;
+    height:48px;
+    border-radius:50%;
+    background:var(--panel);
+    border:1px solid var(--line);
+    color:var(--text-dim);
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    cursor:pointer;
+    transition:border-color .15s ease, color .15s ease;
+  }
+  .icon-action-btn:hover{ border-color:var(--recovering-dark); color:var(--recovering); }
+  .icon-action-btn svg{ width:22px; height:22px; }
+  .bottom-actions{ display:flex; flex-direction:column; align-items:center; gap:12px; margin:16px 0 6px; }
   .btn-ghost{
     font-family:'Inter',sans-serif;
     font-size:13.5px;
@@ -490,6 +522,48 @@
     font-weight:500;
   }
 
+  /* Timer-finished flash (replaces sound) */
+  .timer-flash-overlay{
+    position:fixed;
+    inset:0;
+    z-index:200;
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    pointer-events:none;
+    opacity:0;
+  }
+  .timer-flash-overlay.show{ animation:timerFlashFade 1.8s ease forwards; }
+  .timer-flash-circle{
+    width:130px;
+    height:130px;
+    border-radius:50%;
+    background:var(--recovering);
+    color:#1B1300;
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    font-size:52px;
+    box-shadow:0 0 60px rgba(217,164,65,0.55);
+    transform:scale(0.4);
+    animation:timerFlashPop 1.8s ease forwards;
+  }
+  @keyframes timerFlashFade{
+    0%{ opacity:0; }
+    15%{ opacity:1; }
+    75%{ opacity:1; }
+    100%{ opacity:0; }
+  }
+  @keyframes timerFlashPop{
+    0%{ transform:scale(0.4); }
+    25%{ transform:scale(1.15); }
+    40%{ transform:scale(1); }
+    100%{ transform:scale(1); }
+  }
+  @media (prefers-reduced-motion:reduce){
+    .timer-flash-overlay.show, .timer-flash-circle{ animation:none; opacity:1; }
+  }
+
   /* Streak calendar */
   .calendar-modal{ max-width:360px; padding:20px; }
   .calendar-header{
@@ -543,12 +617,6 @@
     font-weight:700;
   }
   .cal-day.today{ box-shadow:0 0 0 2px var(--text) inset; }
-  .calendar-hint{
-    margin:14px 0 0;
-    font-size:11.5px;
-    color:var(--text-faint);
-    text-align:center;
-  }
 
   /* Note */
   .note-modal{ max-width:420px; }
@@ -957,11 +1025,20 @@
     </div>
   </div>
 
+  <div class="icon-actions-row">
+    <button class="icon-action-btn" id="timer-open-btn" title="Timer / Stopwatch">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="13" r="8"/><line x1="12" y1="9" x2="12" y2="13"/><line x1="12" y1="13" x2="14.5" y2="15"/><line x1="9" y1="3" x2="15" y2="3"/><line x1="12" y1="3" x2="12" y2="5"/></svg>
+    </button>
+    <button class="icon-action-btn" id="calendar-open-btn" title="Streak calendar">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="4" width="18" height="18" rx="2"/><line x1="16" y1="2" x2="16" y2="6"/><line x1="8" y1="2" x2="8" y2="6"/><line x1="3" y1="10" x2="21" y2="10"/></svg>
+    </button>
+    <button class="icon-action-btn" id="note-open-btn" title="Note">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M14 3H6a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V9z"/><polyline points="14 3 14 9 20 9"/><line x1="8" y1="13" x2="16" y2="13"/><line x1="8" y1="17" x2="16" y2="17"/></svg>
+    </button>
+  </div>
+
   <div class="bottom-actions">
     <button class="btn-ghost" id="mode-toggle-btn">Score map</button>
-    <button class="btn-ghost" id="timer-open-btn">Timer / Stopwatch</button>
-    <button class="btn-ghost" id="calendar-open-btn">Streak calendar</button>
-    <button class="btn-ghost" id="note-open-btn">Note</button>
     <button class="btn-danger" id="reset-btn">Clear all data</button>
   </div>
 </div>
@@ -995,7 +1072,6 @@
     <div class="timer-tabs">
       <button class="timer-tab active" id="tab-timer-btn">Timer</button>
       <button class="timer-tab" id="tab-stopwatch-btn">Stopwatch</button>
-      <button class="timer-close-btn" id="timer-sound-btn">🔊</button>
       <button class="timer-close-btn" id="timer-close-btn">✕</button>
     </div>
 
@@ -1003,13 +1079,11 @@
       <div class="timer-display" id="timer-display">00:30</div>
 
       <div class="timer-presets" id="timer-presets">
-        <button data-secs="5">5s</button>
         <button data-secs="10">10s</button>
         <button data-secs="30" class="active">30s</button>
         <button data-secs="60">1m</button>
-        <button data-secs="90">1m30</button>
         <button data-secs="120">2m</button>
-        <button data-secs="180">3m</button>
+        <button data-secs="300">5m</button>
       </div>
 
       <div class="timer-custom-row">
@@ -1037,6 +1111,10 @@
   </div>
 </div>
 
+<div class="timer-flash-overlay" id="timer-flash-overlay">
+  <div class="timer-flash-circle">⏰</div>
+</div>
+
 <div class="modal-overlay" id="calendar-overlay" hidden>
   <div class="modal-box calendar-modal">
     <div class="calendar-header">
@@ -1046,7 +1124,6 @@
       <button class="timer-close-btn" id="calendar-close-btn">✕</button>
     </div>
     <div class="calendar-grid" id="calendar-grid"></div>
-    <p class="calendar-hint">Orange = at least one muscle logged that day</p>
   </div>
 </div>
 
@@ -2109,34 +2186,16 @@ tabStopwatchBtn.addEventListener('click', ()=>{
   tabTimerBtn.classList.remove('active');
 });
 
-/* ---- shared: beep + vibrate, no external audio file needed ---- */
-let audioCtx = null;
-function playBeep(){
-  try{
-    if(!audioCtx) audioCtx = new (window.AudioContext || window.webkitAudioContext)();
-    const osc = audioCtx.createOscillator();
-    const gain = audioCtx.createGain();
-    osc.type = 'sine';
-    osc.frequency.value = 880;
-    gain.gain.setValueAtTime(0.35, audioCtx.currentTime);
-    gain.gain.exponentialRampToValueAtTime(0.001, audioCtx.currentTime + 0.45);
-    osc.connect(gain);
-    gain.connect(audioCtx.destination);
-    osc.start();
-    osc.stop(audioCtx.currentTime + 0.5);
-  } catch(e){ /* audio unavailable - vibration still fires */ }
-}
-function playBeepPattern(times){
-  let i = 0;
-  (function next(){
-    if(i >= times) return;
-    playBeep();
-    i++;
-    setTimeout(next, 550);
-  })();
-}
+/* ---- shared: vibrate + a center-screen flash, no sound ---- */
 function vibrateDevice(pattern){
   if(navigator.vibrate){ navigator.vibrate(pattern); }
+}
+const timerFlashOverlay = document.getElementById('timer-flash-overlay');
+function showTimerFlash(){
+  timerFlashOverlay.classList.remove('show');
+  void timerFlashOverlay.offsetWidth; // restart the animation if it's already mid-flash
+  timerFlashOverlay.classList.add('show');
+  setTimeout(()=>{ timerFlashOverlay.classList.remove('show'); }, 1800);
 }
 
 /* ---- Timer (countdown) ---- */
@@ -2177,21 +2236,18 @@ timerStartBtn.addEventListener('click', ()=>{
   timerDisplay.textContent = formatClock(timerRemaining);
   timerStartBtn.style.display = 'none';
   timerCancelBtn.style.display = '';
-  timerOpenBtn.textContent = 'Timer: ' + formatClock(timerRemaining);
 
   timerInterval = setInterval(()=>{
     timerRemaining--;
     const shown = Math.max(0, timerRemaining);
     timerDisplay.textContent = formatClock(shown);
-    timerOpenBtn.textContent = 'Timer: ' + formatClock(shown);
     if(timerRemaining <= 0){
       clearInterval(timerInterval);
       timerInterval = null;
       timerStartBtn.style.display = '';
       timerCancelBtn.style.display = 'none';
-      timerOpenBtn.textContent = 'Timer / Stopwatch';
       vibrateDevice([300,150,300,150,300]);
-      if(timerSoundEnabled){ playBeepPattern(3); }
+      showTimerFlash();
     }
   }, 1000);
 });
@@ -2201,7 +2257,6 @@ timerCancelBtn.addEventListener('click', ()=>{
   timerDisplay.textContent = formatClock(timerDuration);
   timerStartBtn.style.display = '';
   timerCancelBtn.style.display = 'none';
-  timerOpenBtn.textContent = 'Timer / Stopwatch';
 });
 
 /* ---- Stopwatch (count up) ---- */
@@ -2265,33 +2320,22 @@ function renderStopwatchHistory(){
     stopwatchHistoryEl.innerHTML = '<p class="empty-hint">No saved times yet.</p>';
     return;
   }
-  stopwatchHistory.forEach(item=>{
+  stopwatchHistory.forEach((item, index)=>{
     const row = document.createElement('div');
     row.className = 'history-item';
     row.innerHTML = '<span class="history-dot"></span><span class="history-time">' +
       formatStopwatchMs(item.ms) + ' — ' +
       new Date(item.savedAt).toLocaleString(undefined, {weekday:'short', month:'short', day:'numeric', hour:'2-digit', minute:'2-digit'}) +
-      '</span>';
+      '</span>' +
+      '<button class="history-delete-btn" title="Delete"><svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="3 6 5 6 21 6"/><path d="M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6m3 0V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2"/></svg></button>';
+    row.querySelector('.history-delete-btn').addEventListener('click', ()=>{
+      stopwatchHistory.splice(index, 1);
+      scheduleSave();
+      renderStopwatchHistory();
+    });
     stopwatchHistoryEl.appendChild(row);
   });
 }
-
-/* ---- Timer sound toggle (device-wide preference, not tied to a profile) ---- */
-
-const TIMER_SOUND_KEY = 'muscle-tracker-timer-sound';
-const timerSoundBtn = document.getElementById('timer-sound-btn');
-let timerSoundEnabled = localStorage.getItem(TIMER_SOUND_KEY) !== 'off';
-
-function updateTimerSoundUI(){
-  timerSoundBtn.textContent = timerSoundEnabled ? '🔊' : '🔇';
-  timerSoundBtn.title = timerSoundEnabled ? 'Mute timer sound' : 'Unmute timer sound';
-}
-timerSoundBtn.addEventListener('click', ()=>{
-  timerSoundEnabled = !timerSoundEnabled;
-  try{ localStorage.setItem(TIMER_SOUND_KEY, timerSoundEnabled ? 'on' : 'off'); } catch(e){}
-  updateTimerSoundUI();
-});
-updateTimerSoundUI();
 
 /* ---------------- Streak calendar ---------------- */
 
