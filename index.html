@@ -337,6 +337,241 @@
   }
   .modal-actions{ display:flex; gap:10px; justify-content:flex-end; flex-wrap:wrap; }
   .modal-actions button{ min-width:0; flex:1; }
+
+  .timer-modal{
+    max-width:420px;
+    padding:0;
+    overflow:hidden;
+  }
+  .timer-tabs{
+    display:flex;
+    align-items:center;
+    border-bottom:1px solid var(--line);
+  }
+  .timer-tab{
+    flex:1;
+    font-family:'Oswald',sans-serif;
+    font-size:13px;
+    letter-spacing:0.06em;
+    text-transform:uppercase;
+    color:var(--text-faint);
+    background:transparent;
+    border:none;
+    padding:16px 8px;
+    cursor:pointer;
+    border-bottom:2px solid transparent;
+  }
+  .timer-tab.active{ color:var(--recovering); border-bottom-color:var(--recovering); }
+  .timer-close-btn{
+    background:transparent;
+    border:none;
+    color:var(--text-faint);
+    font-size:15px;
+    padding:16px;
+    cursor:pointer;
+  }
+  .timer-close-btn:hover{ color:var(--text); }
+  .timer-panel{ padding:24px; }
+  .timer-display{
+    font-family:'JetBrains Mono',monospace;
+    font-size:56px;
+    font-weight:700;
+    text-align:center;
+    color:var(--text);
+    letter-spacing:0.02em;
+    margin-bottom:22px;
+    font-variant-numeric:tabular-nums;
+  }
+  .timer-presets{
+    display:flex;
+    flex-wrap:wrap;
+    justify-content:center;
+    gap:8px;
+    margin-bottom:16px;
+  }
+  .timer-presets button{
+    font-family:'JetBrains Mono',monospace;
+    font-size:12.5px;
+    color:var(--text-dim);
+    background:var(--panel-2);
+    border:1px solid var(--line);
+    border-radius:999px;
+    padding:8px 14px;
+    cursor:pointer;
+  }
+  .timer-presets button.active{
+    color:var(--recovering);
+    border-color:var(--recovering-dark);
+    background:rgba(217,164,65,0.1);
+  }
+  .timer-custom-row{
+    display:flex;
+    gap:8px;
+    margin-bottom:20px;
+  }
+  .timer-custom-row input{
+    flex:1;
+    min-width:0;
+    background:var(--panel-2);
+    border:1px solid var(--line);
+    border-radius:8px;
+    padding:10px 12px;
+    color:var(--text);
+    font-family:'Inter',sans-serif;
+    font-size:13.5px;
+  }
+  .timer-custom-row input::placeholder{ color:var(--text-faint); }
+  .timer-custom-row button{
+    font-family:'Inter',sans-serif;
+    font-size:13px;
+    font-weight:500;
+    color:var(--text-dim);
+    background:transparent;
+    border:1px solid var(--line);
+    border-radius:8px;
+    padding:10px 16px;
+    cursor:pointer;
+  }
+  .timer-custom-row button:hover{ border-color:var(--recovering-dark); color:var(--recovering); }
+  .timer-start-btn{
+    width:100%;
+    font-family:'Inter',sans-serif;
+    font-size:15px;
+    font-weight:600;
+    color:#1B1300;
+    background:var(--recovering);
+    border:none;
+    border-radius:10px;
+    padding:14px 16px;
+    cursor:pointer;
+  }
+  .timer-start-btn:hover{ background:#EAB554; }
+  .timer-cancel-btn{
+    width:100%;
+    font-family:'Inter',sans-serif;
+    font-size:14px;
+    font-weight:500;
+    color:var(--danger);
+    background:transparent;
+    border:1px solid rgba(229,72,77,0.4);
+    border-radius:10px;
+    padding:13px 16px;
+    cursor:pointer;
+  }
+  .timer-cancel-btn:hover{ background:rgba(229,72,77,0.1); }
+  .stopwatch-buttons{
+    display:flex;
+    flex-wrap:wrap;
+    gap:8px;
+    margin-bottom:20px;
+  }
+  .stopwatch-buttons .timer-start-btn,
+  .stopwatch-buttons .timer-cancel-btn{ width:auto; flex:1 1 100%; }
+  .stopwatch-secondary-btn{
+    flex:1;
+    font-family:'Inter',sans-serif;
+    font-size:13px;
+    font-weight:500;
+    color:var(--text-dim);
+    background:transparent;
+    border:1px solid var(--line);
+    border-radius:8px;
+    padding:10px 12px;
+    cursor:pointer;
+  }
+  .stopwatch-secondary-btn:hover{ border-color:var(--recovering-dark); color:var(--recovering); }
+  .timer-history-title{
+    font-family:'Oswald',sans-serif;
+    font-size:12px;
+    letter-spacing:0.1em;
+    text-transform:uppercase;
+    color:var(--text-dim);
+    margin:4px 0 10px;
+    font-weight:500;
+  }
+
+  /* Streak calendar */
+  .calendar-modal{ max-width:360px; padding:20px; }
+  .calendar-header{
+    display:flex;
+    align-items:center;
+    gap:8px;
+    margin-bottom:16px;
+  }
+  .calendar-nav-btn{
+    background:var(--panel-2);
+    border:1px solid var(--line);
+    color:var(--text-dim);
+    border-radius:8px;
+    width:32px;height:32px;
+    font-size:16px;
+    cursor:pointer;
+  }
+  .calendar-nav-btn:hover{ color:var(--recovering); border-color:var(--recovering-dark); }
+  .calendar-title{
+    flex:1;
+    text-align:center;
+    font-family:'Oswald',sans-serif;
+    font-size:15px;
+    font-weight:600;
+  }
+  .calendar-grid{
+    display:grid;
+    grid-template-columns:repeat(7, 1fr);
+    gap:4px;
+  }
+  .cal-weekday{
+    text-align:center;
+    font-family:'JetBrains Mono',monospace;
+    font-size:11px;
+    color:var(--text-faint);
+    padding-bottom:6px;
+  }
+  .cal-day{
+    aspect-ratio:1;
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    border-radius:8px;
+    font-size:12.5px;
+    color:var(--text-dim);
+    background:var(--panel-2);
+  }
+  .cal-day.trained{
+    background:var(--recovering);
+    color:#1B1300;
+    font-weight:700;
+  }
+  .cal-day.today{ box-shadow:0 0 0 2px var(--text) inset; }
+  .calendar-hint{
+    margin:14px 0 0;
+    font-size:11.5px;
+    color:var(--text-faint);
+    text-align:center;
+  }
+
+  /* Note */
+  .note-modal{ max-width:420px; }
+  .note-textarea{
+    width:100%;
+    min-height:160px;
+    background:var(--panel-2);
+    border:1px solid var(--line);
+    border-radius:10px;
+    padding:14px;
+    color:var(--text);
+    font-family:'Inter',sans-serif;
+    font-size:14px;
+    line-height:1.6;
+    resize:vertical;
+  }
+  .note-status{
+    margin:8px 0 0;
+    font-size:12px;
+    color:var(--text-faint);
+    min-height:16px;
+  }
+
   @media (max-width:900px){
     .layout{ grid-template-columns:1fr; }
     .map-card svg{ height:auto; width:100%; }
@@ -724,6 +959,9 @@
 
   <div class="bottom-actions">
     <button class="btn-ghost" id="mode-toggle-btn">Score map</button>
+    <button class="btn-ghost" id="timer-open-btn">Timer / Stopwatch</button>
+    <button class="btn-ghost" id="calendar-open-btn">Streak calendar</button>
+    <button class="btn-ghost" id="note-open-btn">Note</button>
     <button class="btn-danger" id="reset-btn">Clear all data</button>
   </div>
 </div>
@@ -752,6 +990,77 @@
   </div>
 </div>
 
+<div class="modal-overlay" id="timer-overlay" hidden>
+  <div class="modal-box timer-modal">
+    <div class="timer-tabs">
+      <button class="timer-tab active" id="tab-timer-btn">Timer</button>
+      <button class="timer-tab" id="tab-stopwatch-btn">Stopwatch</button>
+      <button class="timer-close-btn" id="timer-sound-btn">🔊</button>
+      <button class="timer-close-btn" id="timer-close-btn">✕</button>
+    </div>
+
+    <div class="timer-panel" id="timer-panel">
+      <div class="timer-display" id="timer-display">00:30</div>
+
+      <div class="timer-presets" id="timer-presets">
+        <button data-secs="5">5s</button>
+        <button data-secs="10">10s</button>
+        <button data-secs="30" class="active">30s</button>
+        <button data-secs="60">1m</button>
+        <button data-secs="90">1m30</button>
+        <button data-secs="120">2m</button>
+        <button data-secs="180">3m</button>
+      </div>
+
+      <div class="timer-custom-row">
+        <input type="number" id="timer-custom-input" placeholder="Custom seconds" min="1" max="3599">
+        <button id="timer-custom-set-btn">Set</button>
+      </div>
+
+      <button class="timer-start-btn" id="timer-start-btn">Start</button>
+      <button class="timer-cancel-btn" id="timer-cancel-btn" style="display:none;">Cancel</button>
+    </div>
+
+    <div class="timer-panel" id="stopwatch-panel" style="display:none;">
+      <div class="timer-display" id="stopwatch-display">00:00</div>
+
+      <div class="stopwatch-buttons">
+        <button class="timer-start-btn" id="stopwatch-start-btn">Start</button>
+        <button class="timer-cancel-btn" id="stopwatch-stop-btn" style="display:none;">Stop</button>
+        <button class="stopwatch-secondary-btn" id="stopwatch-save-btn" style="display:none;">Save time</button>
+        <button class="stopwatch-secondary-btn" id="stopwatch-reset-btn">Reset</button>
+      </div>
+
+      <h2 class="timer-history-title">Last 10 saved</h2>
+      <div id="stopwatch-history"></div>
+    </div>
+  </div>
+</div>
+
+<div class="modal-overlay" id="calendar-overlay" hidden>
+  <div class="modal-box calendar-modal">
+    <div class="calendar-header">
+      <button class="calendar-nav-btn" id="calendar-prev-btn">‹</button>
+      <div class="calendar-title" id="calendar-title">Month Year</div>
+      <button class="calendar-nav-btn" id="calendar-next-btn">›</button>
+      <button class="timer-close-btn" id="calendar-close-btn">✕</button>
+    </div>
+    <div class="calendar-grid" id="calendar-grid"></div>
+    <p class="calendar-hint">Orange = at least one muscle logged that day</p>
+  </div>
+</div>
+
+<div class="modal-overlay" id="note-overlay" hidden>
+  <div class="modal-box note-modal">
+    <div class="modal-title">Note</div>
+    <textarea class="note-textarea" id="note-textarea" maxlength="2000" placeholder="Write anything — form cues, goals, reminders…"></textarea>
+    <p class="note-status" id="note-status">&nbsp;</p>
+    <div class="modal-actions">
+      <button class="btn-ghost" id="note-close-btn">Close</button>
+    </div>
+  </div>
+</div>
+
 <script>
 const muscleInfo = {"sternocleidomastoid": {"name": "Neck", "category": "neck"}, "trapezius": {"name": "Traps", "category": "back"}, "latissimus_dorsi": {"name": "Lats", "category": "back"}, "rhomboid": {"name": "Rhomboids", "category": "back"}, "teres_major": {"name": "Teres major", "category": "back"}, "front_delt": {"name": "Front delts", "category": "shoulders"}, "side_delt": {"name": "Side delts", "category": "shoulders"}, "rear_delt": {"name": "Rear delts", "category": "shoulders"}, "chest_upper": {"name": "Upper chest", "category": "chest"}, "chest_lower": {"name": "Lower chest", "category": "chest"}, "serratus_anterior": {"name": "Serratus anterior", "category": "chest"}, "biceps_brachii": {"name": "Biceps", "category": "arms"}, "brachialis": {"name": "Brachialis", "category": "arms"}, "flexors": {"name": "Forearm flexors", "category": "arms"}, "extensors": {"name": "Forearm extensors", "category": "arms"}, "triceps_brachii": {"name": "Triceps", "category": "arms"}, "external_oblique": {"name": "Obliques", "category": "core"}, "rectus_abdominis": {"name": "Abs", "category": "core"}, "quads": {"name": "Quads", "category": "legs"}, "hamstrings": {"name": "Hamstrings", "category": "legs"}, "glutes": {"name": "Glutes", "category": "legs"}, "inner_thigh": {"name": "Inner thigh", "category": "legs"}, "calves": {"name": "Calves", "category": "legs"}, "shins": {"name": "Shins", "category": "legs"}};
 const DEFAULT_RECOVERY_HOURS = 48;
@@ -762,6 +1071,7 @@ Object.keys(muscleInfo).forEach(id=>{
 });
 
 let selected = null;
+let stopwatchHistory = [];
 let viewMode = 'recovery';
 let activeSide = 'front';
 
@@ -1435,7 +1745,7 @@ function selectLocalProfile(name){
 function saveLocalProfile(){
   if(authMode !== 'local' || !activeLocalProfile) return;
   const store = loadLocalProfilesStore();
-  store.profiles[activeLocalProfile] = { version: 1, savedAt: Date.now(), muscles: muscleState };
+  store.profiles[activeLocalProfile] = { version: 3, savedAt: Date.now(), muscles: muscleState, stopwatchHistory: stopwatchHistory, note: profileNote };
   store.lastActive = activeLocalProfile;
   saveLocalProfilesStore(store);
   syncStatus.textContent = 'Saved on this device';
@@ -1447,9 +1757,12 @@ function resetMuscleStateToDefaults(){
   Object.keys(muscleInfo).forEach(id=>{
     muscleState[id] = { history: [], forceRecovered: false, score: null, recoveryHours: DEFAULT_RECOVERY_HOURS };
   });
+  stopwatchHistory = [];
+  profileNote = '';
   selected = null;
   renderVisuals();
   renderPanel();
+  renderStopwatchHistory();
 }
 
 function applyLoadedState(saved){
@@ -1463,9 +1776,12 @@ function applyLoadedState(saved){
       recoveryHours: s.recoveryHours || DEFAULT_RECOVERY_HOURS
     } : { history: [], forceRecovered: false, score: null, recoveryHours: DEFAULT_RECOVERY_HOURS };
   });
+  stopwatchHistory = Array.isArray(saved.stopwatchHistory) ? saved.stopwatchHistory : [];
+  profileNote = typeof saved.note === 'string' ? saved.note : '';
   selected = null;
   renderVisuals();
   renderPanel();
+  renderStopwatchHistory();
 }
 
 function updateAccountMenuForMode(){
@@ -1716,7 +2032,7 @@ async function loadFromDrive(){
 
 async function saveToDrive(){
   if(!accessToken){ return; }
-  const payload = JSON.stringify({ version: 1, savedAt: Date.now(), muscles: muscleState });
+  const payload = JSON.stringify({ version: 3, savedAt: Date.now(), muscles: muscleState, stopwatchHistory: stopwatchHistory, note: profileNote });
   try{
     if(!driveFileId){
       driveFileId = await findDriveFile();
@@ -1746,6 +2062,333 @@ async function saveToDrive(){
     syncStatus.textContent = 'Sync failed — try "Sync now"';
   }
 }
+
+/* ---------------- Timer / Stopwatch ---------------- */
+
+const timerOverlay = document.getElementById('timer-overlay');
+const timerOpenBtn = document.getElementById('timer-open-btn');
+const timerCloseBtn = document.getElementById('timer-close-btn');
+const tabTimerBtn = document.getElementById('tab-timer-btn');
+const tabStopwatchBtn = document.getElementById('tab-stopwatch-btn');
+const timerPanelEl = document.getElementById('timer-panel');
+const stopwatchPanelEl = document.getElementById('stopwatch-panel');
+
+const timerDisplay = document.getElementById('timer-display');
+const timerPresetsEl = document.getElementById('timer-presets');
+const timerCustomInput = document.getElementById('timer-custom-input');
+const timerCustomSetBtn = document.getElementById('timer-custom-set-btn');
+const timerStartBtn = document.getElementById('timer-start-btn');
+const timerCancelBtn = document.getElementById('timer-cancel-btn');
+
+const stopwatchDisplay = document.getElementById('stopwatch-display');
+const stopwatchStartBtn = document.getElementById('stopwatch-start-btn');
+const stopwatchStopBtn = document.getElementById('stopwatch-stop-btn');
+const stopwatchSaveBtn = document.getElementById('stopwatch-save-btn');
+const stopwatchResetBtn = document.getElementById('stopwatch-reset-btn');
+const stopwatchHistoryEl = document.getElementById('stopwatch-history');
+
+timerOpenBtn.addEventListener('click', ()=>{
+  timerOverlay.hidden = false;
+  renderStopwatchHistory();
+});
+timerCloseBtn.addEventListener('click', ()=>{ timerOverlay.hidden = true; });
+timerOverlay.addEventListener('click', e=>{
+  if(e.target === timerOverlay){ timerOverlay.hidden = true; }
+});
+
+tabTimerBtn.addEventListener('click', ()=>{
+  timerPanelEl.style.display = '';
+  stopwatchPanelEl.style.display = 'none';
+  tabTimerBtn.classList.add('active');
+  tabStopwatchBtn.classList.remove('active');
+});
+tabStopwatchBtn.addEventListener('click', ()=>{
+  timerPanelEl.style.display = 'none';
+  stopwatchPanelEl.style.display = '';
+  tabStopwatchBtn.classList.add('active');
+  tabTimerBtn.classList.remove('active');
+});
+
+/* ---- shared: beep + vibrate, no external audio file needed ---- */
+let audioCtx = null;
+function playBeep(){
+  try{
+    if(!audioCtx) audioCtx = new (window.AudioContext || window.webkitAudioContext)();
+    const osc = audioCtx.createOscillator();
+    const gain = audioCtx.createGain();
+    osc.type = 'sine';
+    osc.frequency.value = 880;
+    gain.gain.setValueAtTime(0.35, audioCtx.currentTime);
+    gain.gain.exponentialRampToValueAtTime(0.001, audioCtx.currentTime + 0.45);
+    osc.connect(gain);
+    gain.connect(audioCtx.destination);
+    osc.start();
+    osc.stop(audioCtx.currentTime + 0.5);
+  } catch(e){ /* audio unavailable - vibration still fires */ }
+}
+function playBeepPattern(times){
+  let i = 0;
+  (function next(){
+    if(i >= times) return;
+    playBeep();
+    i++;
+    setTimeout(next, 550);
+  })();
+}
+function vibrateDevice(pattern){
+  if(navigator.vibrate){ navigator.vibrate(pattern); }
+}
+
+/* ---- Timer (countdown) ---- */
+let timerDuration = 30;
+let timerRemaining = 0;
+let timerInterval = null;
+
+function formatClock(totalSeconds){
+  const m = Math.floor(totalSeconds / 60);
+  const s = totalSeconds % 60;
+  return String(m).padStart(2,'0') + ':' + String(s).padStart(2,'0');
+}
+
+function setTimerDuration(secs){
+  timerDuration = secs;
+  timerDisplay.textContent = formatClock(secs);
+}
+
+document.querySelectorAll('#timer-presets button').forEach(btn=>{
+  btn.addEventListener('click', ()=>{
+    document.querySelectorAll('#timer-presets button').forEach(b=> b.classList.remove('active'));
+    btn.classList.add('active');
+    setTimerDuration(parseInt(btn.dataset.secs, 10));
+  });
+});
+
+timerCustomSetBtn.addEventListener('click', ()=>{
+  const v = parseInt(timerCustomInput.value, 10);
+  if(v > 0 && v <= 3599){
+    document.querySelectorAll('#timer-presets button').forEach(b=> b.classList.remove('active'));
+    setTimerDuration(v);
+    timerCustomInput.value = '';
+  }
+});
+
+timerStartBtn.addEventListener('click', ()=>{
+  timerRemaining = timerDuration;
+  timerDisplay.textContent = formatClock(timerRemaining);
+  timerStartBtn.style.display = 'none';
+  timerCancelBtn.style.display = '';
+  timerOpenBtn.textContent = 'Timer: ' + formatClock(timerRemaining);
+
+  timerInterval = setInterval(()=>{
+    timerRemaining--;
+    const shown = Math.max(0, timerRemaining);
+    timerDisplay.textContent = formatClock(shown);
+    timerOpenBtn.textContent = 'Timer: ' + formatClock(shown);
+    if(timerRemaining <= 0){
+      clearInterval(timerInterval);
+      timerInterval = null;
+      timerStartBtn.style.display = '';
+      timerCancelBtn.style.display = 'none';
+      timerOpenBtn.textContent = 'Timer / Stopwatch';
+      vibrateDevice([300,150,300,150,300]);
+      if(timerSoundEnabled){ playBeepPattern(3); }
+    }
+  }, 1000);
+});
+
+timerCancelBtn.addEventListener('click', ()=>{
+  if(timerInterval){ clearInterval(timerInterval); timerInterval = null; }
+  timerDisplay.textContent = formatClock(timerDuration);
+  timerStartBtn.style.display = '';
+  timerCancelBtn.style.display = 'none';
+  timerOpenBtn.textContent = 'Timer / Stopwatch';
+});
+
+/* ---- Stopwatch (count up) ---- */
+let stopwatchStartTs = null;
+let stopwatchElapsedMs = 0;
+let stopwatchRunning = false;
+let stopwatchInterval = null;
+
+function currentElapsedMs(){
+  return stopwatchRunning ? (Date.now() - stopwatchStartTs + stopwatchElapsedMs) : stopwatchElapsedMs;
+}
+function formatStopwatchMs(ms){
+  return formatClock(Math.floor(ms/1000));
+}
+function updateStopwatchDisplay(){
+  stopwatchDisplay.textContent = formatStopwatchMs(currentElapsedMs());
+}
+
+stopwatchStartBtn.addEventListener('click', ()=>{
+  stopwatchRunning = true;
+  stopwatchStartTs = Date.now();
+  stopwatchStartBtn.style.display = 'none';
+  stopwatchStopBtn.style.display = '';
+  stopwatchSaveBtn.style.display = '';
+  stopwatchInterval = setInterval(updateStopwatchDisplay, 250);
+});
+
+stopwatchStopBtn.addEventListener('click', ()=>{
+  stopwatchElapsedMs = currentElapsedMs();
+  stopwatchRunning = false;
+  clearInterval(stopwatchInterval);
+  updateStopwatchDisplay();
+  stopwatchStopBtn.style.display = 'none';
+  stopwatchStartBtn.style.display = '';
+});
+
+stopwatchResetBtn.addEventListener('click', ()=>{
+  stopwatchRunning = false;
+  clearInterval(stopwatchInterval);
+  stopwatchElapsedMs = 0;
+  stopwatchStartTs = null;
+  updateStopwatchDisplay();
+  stopwatchStartBtn.style.display = '';
+  stopwatchStopBtn.style.display = 'none';
+  stopwatchSaveBtn.style.display = 'none';
+});
+
+stopwatchSaveBtn.addEventListener('click', ()=>{
+  saveStopwatchTime(currentElapsedMs());
+  renderStopwatchHistory();
+});
+
+function saveStopwatchTime(ms){
+  stopwatchHistory.unshift({ ms: ms, savedAt: Date.now() });
+  stopwatchHistory = stopwatchHistory.slice(0, 10);
+  scheduleSave();
+}
+function renderStopwatchHistory(){
+  stopwatchHistoryEl.innerHTML = '';
+  if(!stopwatchHistory.length){
+    stopwatchHistoryEl.innerHTML = '<p class="empty-hint">No saved times yet.</p>';
+    return;
+  }
+  stopwatchHistory.forEach(item=>{
+    const row = document.createElement('div');
+    row.className = 'history-item';
+    row.innerHTML = '<span class="history-dot"></span><span class="history-time">' +
+      formatStopwatchMs(item.ms) + ' — ' +
+      new Date(item.savedAt).toLocaleString(undefined, {weekday:'short', month:'short', day:'numeric', hour:'2-digit', minute:'2-digit'}) +
+      '</span>';
+    stopwatchHistoryEl.appendChild(row);
+  });
+}
+
+/* ---- Timer sound toggle (device-wide preference, not tied to a profile) ---- */
+
+const TIMER_SOUND_KEY = 'muscle-tracker-timer-sound';
+const timerSoundBtn = document.getElementById('timer-sound-btn');
+let timerSoundEnabled = localStorage.getItem(TIMER_SOUND_KEY) !== 'off';
+
+function updateTimerSoundUI(){
+  timerSoundBtn.textContent = timerSoundEnabled ? '🔊' : '🔇';
+  timerSoundBtn.title = timerSoundEnabled ? 'Mute timer sound' : 'Unmute timer sound';
+}
+timerSoundBtn.addEventListener('click', ()=>{
+  timerSoundEnabled = !timerSoundEnabled;
+  try{ localStorage.setItem(TIMER_SOUND_KEY, timerSoundEnabled ? 'on' : 'off'); } catch(e){}
+  updateTimerSoundUI();
+});
+updateTimerSoundUI();
+
+/* ---------------- Streak calendar ---------------- */
+
+const calendarOverlay = document.getElementById('calendar-overlay');
+const calendarOpenBtn = document.getElementById('calendar-open-btn');
+const calendarCloseBtn = document.getElementById('calendar-close-btn');
+const calendarPrevBtn = document.getElementById('calendar-prev-btn');
+const calendarNextBtn = document.getElementById('calendar-next-btn');
+const calendarTitle = document.getElementById('calendar-title');
+const calendarGrid = document.getElementById('calendar-grid');
+
+let calendarViewDate = new Date();
+
+function getWorkoutDaySet(){
+  const days = new Set();
+  Object.values(muscleState).forEach(s=>{
+    (s.history || []).forEach(ts=>{
+      const d = new Date(ts);
+      days.add(d.getFullYear() + '-' + d.getMonth() + '-' + d.getDate());
+    });
+  });
+  return days;
+}
+
+function renderCalendar(){
+  const year = calendarViewDate.getFullYear();
+  const month = calendarViewDate.getMonth();
+  calendarTitle.textContent = calendarViewDate.toLocaleString(undefined, {month:'long', year:'numeric'});
+
+  const startWeekday = new Date(year, month, 1).getDay();
+  const daysInMonth = new Date(year, month + 1, 0).getDate();
+  const workoutDays = getWorkoutDaySet();
+  const today = new Date();
+
+  calendarGrid.innerHTML = '';
+  ['S','M','T','W','T','F','S'].forEach(label=>{
+    const el = document.createElement('div');
+    el.className = 'cal-weekday';
+    el.textContent = label;
+    calendarGrid.appendChild(el);
+  });
+  for(let i = 0; i < startWeekday; i++){
+    calendarGrid.appendChild(document.createElement('div'));
+  }
+  for(let day = 1; day <= daysInMonth; day++){
+    const cell = document.createElement('div');
+    cell.className = 'cal-day';
+    cell.textContent = day;
+    if(workoutDays.has(year + '-' + month + '-' + day)) cell.classList.add('trained');
+    if(today.getFullYear() === year && today.getMonth() === month && today.getDate() === day) cell.classList.add('today');
+    calendarGrid.appendChild(cell);
+  }
+}
+
+calendarOpenBtn.addEventListener('click', ()=>{
+  calendarViewDate = new Date();
+  calendarOverlay.hidden = false;
+  renderCalendar();
+});
+calendarCloseBtn.addEventListener('click', ()=>{ calendarOverlay.hidden = true; });
+calendarOverlay.addEventListener('click', e=>{ if(e.target === calendarOverlay) calendarOverlay.hidden = true; });
+calendarPrevBtn.addEventListener('click', ()=>{
+  calendarViewDate = new Date(calendarViewDate.getFullYear(), calendarViewDate.getMonth() - 1, 1);
+  renderCalendar();
+});
+calendarNextBtn.addEventListener('click', ()=>{
+  calendarViewDate = new Date(calendarViewDate.getFullYear(), calendarViewDate.getMonth() + 1, 1);
+  renderCalendar();
+});
+
+/* ---------------- Note (one per profile) ---------------- */
+
+let profileNote = '';
+let noteSaveTimer = null;
+
+const noteOverlay = document.getElementById('note-overlay');
+const noteOpenBtn = document.getElementById('note-open-btn');
+const noteCloseBtn = document.getElementById('note-close-btn');
+const noteTextarea = document.getElementById('note-textarea');
+const noteStatus = document.getElementById('note-status');
+
+noteOpenBtn.addEventListener('click', ()=>{
+  noteTextarea.value = profileNote;
+  noteStatus.textContent = '\u00A0';
+  noteOverlay.hidden = false;
+});
+noteCloseBtn.addEventListener('click', ()=>{ noteOverlay.hidden = true; });
+noteOverlay.addEventListener('click', e=>{ if(e.target === noteOverlay) noteOverlay.hidden = true; });
+noteTextarea.addEventListener('input', ()=>{
+  profileNote = noteTextarea.value;
+  noteStatus.textContent = 'Saving…';
+  clearTimeout(noteSaveTimer);
+  noteSaveTimer = setTimeout(()=>{
+    scheduleSave();
+    noteStatus.textContent = 'Saved';
+  }, 600);
+});
 
 renderLocalProfileList();
 </script>
